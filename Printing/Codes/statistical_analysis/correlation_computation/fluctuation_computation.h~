@@ -1,0 +1,71 @@
+#ifndef VORTICITY_COMPUTATION_H
+#define VORTICITY_COMPUTATION_H
+
+
+#include "../../../../Residuals/Residuals-inl.h"
+#include "fluctuation_structures.h"
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include<stdio.h>
+#include <string>
+#include <cstdlib>
+#include <stdarg.h>
+#include <cmath>
+
+using namespace std;
+
+
+double *** Matrix_Allocator(grid_info grid);
+
+void Free_Matrix(double ***pA,
+                 int x_left, int y_left, int z_left);
+
+
+void grid_reader(int *ldx, int *ldy, int *ldz,
+                 int *time_step, int *final_time);
+
+void data_reader( double ***velocity,
+                  const char *name, int time_index,
+                  grid_info grid);
+
+
+void data_reader_1D( double *velocity,
+                     const char *name, int time_index, 
+                     int index,int ldx);
+
+
+
+void mean_computation(double* mean, double ***quantity,
+                      int time_step, const char* name,
+                      int ldx, int ldy, int ldz);
+
+void fluctuation_computation(double* mean, double ***quantity,
+                             int time_step, const char* name,
+                             int ldx, int ldy, int ldz);
+
+void rms_computation(double ***quantity,
+                     int time_step, const char* name,
+                     int ldx, int ldy, int ldz);
+
+
+void reynolds_stresses(double ***quantity_1, double ***quantity_2,
+                       int time_step, const char* name,
+                       grid_info grid);
+
+
+void stresses_computation(double ***fluct_x, double ***fluct_y, 
+                          double ***fluct_z, int time_step,
+                          grid_info grid);
+
+void two_point_correlation(double ***quantity_1, double ***quantity_2,
+                           double *position, int y_position, int index,
+                           int time_index, const char*name,
+                           grid_info grid);
+
+void two_point_correlation_computation(double ***fluct_x, double ***fluct_y,
+                                       double ***fluct_z, double *x, 
+                                       double *z, int y_index,
+                                       int time_step, grid_info grid);
+
+#endif

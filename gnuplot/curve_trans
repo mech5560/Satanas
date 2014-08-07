@@ -1,0 +1,29 @@
+#!/bin/bash
+awk '{
+       for (f = 1; f <= NF; f++) { a[NR, f] = $f } 
+     }
+     NF > nf { nf = NF }
+     END {
+       for (f = 1; f <= nf; f++) {
+           for (r = 1; r <= NR; r++) {
+               printf a[r, f] (r==NR ? RS : FS)
+           }
+       }
+    }' $1.dat>>x.dat
+
+
+gnuplot << EOF
+unset key
+set term eps enhanced color solid  lw 2 size 10in,7in font  'Helvetica,14'
+set output '$1_curveX_$2.eps'
+set title "$1-curveX-$2"
+set ylabel "amplitude"
+set xlabel "X"
+set xrange [0:$3]
+set palette gray
+plot "x.dat" using $2 with linespoints pt 3 ps 0.1 lc rgb "#000000"
+EOF
+epstopdf $1_curveX_$2.eps
+rm $1_curveX_$2.eps
+rm x.dat
+okular $1_curveX_$2.pdf &

@@ -1,0 +1,27 @@
+/*******************************************
+ * Author: Michail Georgiou 
+*  Last Modified: Time-stamp: <2014-07-04 15:25:12 mike_georgiou>   
+*
+*
+Dynamic_Smagorinsky.cpp -- This code implements the dynamic Smagorinsky
+model. In order to compute the eddy viscosity based on that model. In
+simple words, this model dynamically tests the smallest resolved
+scales and based on their behaviour the Smagarinsky constant is
+computed
+*
+* Written on Friday,  4 July 2014.
+********************************************/
+
+#include "LES_Modelling.h"
+
+void Dynamic_Smagorinsky(double*** eddy_viscosity,
+			   double*** velocity_x,
+			   double*** velocity_y, double*** velocity_z,
+			   double*** rho,
+			   double dx, double* dy, double dz,
+			   int ldx, int ldy, int ldz)
+{
+
+
+
+}

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+gnuplot << EOF
+unset key
+set term eps enhanced color solid lw 2 size 10in,7in font  'Helvetica,14'
+set size ratio -1
+set output '$1_contour-vort.eps'
+set title "$1-contour-vort"
+set contour base
+set cntrparam levels increment $3,$4,$5
+set xlabel "X"
+set ylabel "Y"
+set yrange[-$2:$2]
+
+unset surface
+set view map
+#set palette gray
+splot "$1.dat"  with pm3d palette gray
+EOF
+epstopdf $1_contour-vort.eps
+rm $1_contour-vort.eps
+okular $1_contour-vort.pdf &

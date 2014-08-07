@@ -1,0 +1,14 @@
+# number of solution points in the X direction
+32
+# number of solution points in the Y direction
+32
+# number of solution points in the Z direction
+32
+# cfl number
+1e-2
+#tolerance of the poisson solver
+1e-10
+#maximum number of iterations of  the poisson solver
+10000
+#time total ( this is used when i want to continue a run)
+0.

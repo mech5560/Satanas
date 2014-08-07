@@ -1,0 +1,10 @@
+# ldx
+64
+# ldy
+64
+# ldz
+64
+# time step
+0
+# final time
+0

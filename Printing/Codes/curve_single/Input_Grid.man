@@ -1,0 +1,6 @@
+# level that the curve will be take from in the x direction
+32
+# level that the curve will be take from in the y direction
+32
+# level that the curve will be take from in the z direction
+32

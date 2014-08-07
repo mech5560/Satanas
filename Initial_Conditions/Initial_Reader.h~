@@ -1,0 +1,18 @@
+#ifndef INITIAL_READER_H
+#define INITIAL_READER_H
+
+#include <stdlib.h>
+#include <fstream>
+#include <iostream>
+#include <cmath>
+
+#define pi 4.*atan(1.)
+
+
+
+inline double drand()
+{
+  return (2.*((double) rand() / (RAND_MAX+1.0)) - 1.);
+}
+
+#endif

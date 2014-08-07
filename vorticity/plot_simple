@@ -1,0 +1,16 @@
+#!/bin/bash
+gnuplot << EOF
+unset key
+set term eps enhanced color solid lw 2 size 10in,7in font  'Helvetica,14'
+set output '$1.eps'
+set title "$1"
+set grid
+set ylabel "# of iterations"
+set xlabel "0.5 time step"
+set palette gray
+plot "$1.txt"  with linespoints pt 3 ps 0.1 lc rgb "#000000"
+EOF
+
+epstopdf $1.eps
+rm $1.eps
+okular $1.pdf &

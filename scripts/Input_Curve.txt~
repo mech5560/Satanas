@@ -1,0 +1,18 @@
+# level that the curve will be take from in the x direction
+42
+# level that the curve will be take from in the y direction
+31
+# level that the curve will be take from in the z direction
+44
+# curve at the xy plane will be taken at that constant x
+1
+# curve at the xy plane will be taken at that constant y
+2
+# curve at the xz plane will be taken at that constant x
+3
+# curve at the xz plane will be taken at that constant z
+4
+# curve at the yz plane will be taken at that constant y
+5
+# curve at the yz plane will be taken at that constant z
+6

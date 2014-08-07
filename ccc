@@ -1,0 +1,22 @@
+
+
+
+  // Bamdad_Reader(Arr.velocity_x, Arr.velocity_y,
+  //               Arr.velocity_z,
+  //               0,  0,
+  //               0,  0,
+  //               0,  0,
+  //               ldx,  ldy,  ldz);
+
+  // BC_Velocities( Arr.velocity_x,
+  //                Arr.velocity_y,
+  //                Arr.velocity_z,
+  //                ldx, ldy, ldz,
+  //                left_x, right_x,
+  //                left_y, right_y,
+  //                left_z, right_z,
+  //                1,
+  //                velocity_x_top, velocity_x_bottom,
+  //                velocity_y_top, velocity_y_bottom,
+  //                velocity_z_top, velocity_z_bottom,
+  //                Arr.dy, dx, 0.);

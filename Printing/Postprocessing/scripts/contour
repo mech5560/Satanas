@@ -1,0 +1,5 @@
+#!/bin/bash
+
+./contour_non1 $1xy
+./contour_non2 $1xz
+./contour_non3 $1yz

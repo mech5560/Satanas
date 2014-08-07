@@ -1,0 +1,5 @@
+* Run 17/06
+
+- This code will evaluate the new postprocessing code that i will use
+  - More specifically, it will get binary data and, in an external program, will
+    compute vorticities, fluctuations etc.

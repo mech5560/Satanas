@@ -1,0 +1,27 @@
+/*  Last Modified Time-stamp: <2014-04-01 11:48:02 mike_georgiou> */ 
+/* In this header file I will define the variables that
+   I will use in this project
+*/
+#include"Struct.h"
+
+#ifndef Variables
+#define Variables
+
+
+int Nx,Ny,Nz,
+  ldx,ldy,ldz,
+    /*Nze is defined in order to construct the vectors for the sparse solver*/
+  Nze, Dim_A, flag;
+
+int lz,rz, ly,ry, lx,rx;
+
+
+
+/* Structure defined in the Struct.h file*/
+Ar Arr;
+
+
+double *s_A, *Precond_A, *Result, *RHS,Coefficients_X[4],Coefficients_Z[4], ***Temp;
+  int *ij_A;
+  double dx, dz;
+#endif

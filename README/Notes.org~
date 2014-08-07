@@ -1,0 +1,42 @@
+***** Things i am doing per day
+
+
+**** 27/06
+
+*** General changes in the code
+-  I introduced the density in the computation of the rhs of the poisson
+  equation
+
+*** Modifications on the code
+** 17:00
+- I created, allocated memory etc, the necessary matrices in order to apply
+  the correction in u_tilda correctly
+
+- I need to modify the operations that are executed with the new vectors.
+  
+
+**** 28/06
+
+*** Modifications on the code
+
+** 09:14
+- Yesterday I introduced the P^{n-1} and the potential function.
+- Today I will fill these matrices and perform the correction that christos
+  suggested correctly.
+- After that, I ll create a version of the code that computes the viscous
+  fluxes, in one direction, implicitly
+* Outcome
+- The boundary layer that was introduced is smaller now and the problem is
+  smoother now.
+
+
+** 11:15
+- I ll modify the code in order to compute the viscous fluxes in the
+  y-direction(wall BC) implicitly.
+* Notes regarding the implementation of the implicit fluxes [1/1]
+- [X] Read the bamdad's code to get an indication on the methidollogy I ll use
+- In each equation I ll compute the tilda's implicitly for the d/dy(d/dy)
+ component.
+- So, in the X-direction, matrix A will be d/dy(du_tilda/dy)
+  -   In the Y-direction, matrix A will be d/dy(dv_tilda/dy)
+  -   in the Z-direction, matrix A will be d/dy(dw_tilda/dz)    

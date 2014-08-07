@@ -1,0 +1,17 @@
+/*******************************************
+ * Author: Michail Georgiou 
+*  Last Modified: Time-stamp: <>   
+*
+*
+BC_Specifier.cpp -- This Function specifies the boundary
+conditions of my problem
+*
+* Written on Monday, 23 June 2014.
+********************************************/
+
+#include"./../Struct.h"
+
+void BC_Specifier(BC bc)
+{
+
+}

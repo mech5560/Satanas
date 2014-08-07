@@ -1,0 +1,18 @@
+/*******************************************
+ * Author: Michail Georgiou 
+*  Last Modified: Time-stamp: <2014-07-29 10:38:35 mike_georgiou>   
+*
+*
+reynolds_stresses.cpp -- This function will compute the reynolds
+    stresses for the turbulent channel flow. In order to compute the
+    reynolds stresses
+*
+* Written on Tuesday, 29 July 2014.
+********************************************/
+
+
+
+void reynolds_stresses()
+{
+
+}

@@ -1,0 +1,318 @@
+/*******************************************
+ * Author: Michail Georgiou
+ *  Last Modified: Time-stamp: <2014-07-30 12:28:17 mike_georgiou>
+ *
+ *
+This program creates the necessary file from gnuplot to produce
+surface plots
+
+* Written on Friday,  6 June 2014.
+********************************************/
+
+#include"plane_data_creator.h"
+
+int main(int argc, char** argv)
+{
+
+  int ldx, ldy, ldz; 
+  int level_x, level_y, level_z, ghost;
+
+  File_Reader(&level_x, &level_y, &level_z, &ghost);
+  read_grid(&ldx, &ldy, &ldz);
+
+  cout<<level_x<<" "<<level_y<<" "<<level_z<<endl;
+  cout<<ldx<<" "<<ldy<<" "<<ldz<<endl;
+
+  int time_index;
+  cout<<"Please define the time you want to be printed \n";
+  cin>>time_index;
+
+
+  //Allocating the necessary memory for the process
+  double*** temp, *d2, *d1, *d3, ***temp2, ***temp3, ***press;
+
+  temp=Matrix_Allocator(ldx, ldy, ldz,
+                        3,3,1,1,3,3);
+
+  temp2=Matrix_Allocator(ldx, ldy, ldz,
+                         3,3,1,1,3,3);
+
+  temp3=Matrix_Allocator(ldx, ldy, ldz,
+                         3,3,1,1,3,3);
+
+  press=Matrix_Allocator(ldx, ldy, ldz,
+                         3,3,1,1,3,3);
+
+  d1=new double[ldx+6]; d1+=3;
+  d2=new double[ldy+2]; d2+=1;
+  d3=new double[ldz+6]; d3+=3;
+
+
+  data_reader_1D(d1, "x",ldx,3,3);
+  data_reader_1D(d2, "y",ldy,1,1);
+  data_reader_1D(d3, "z",ldz,3,3);
+
+
+  stringstream ss;
+  ss<<"X"<<time_index;
+  string name = ss.str();
+  data_reader( temp, name, ldx,  ldy,  ldz,
+               3,  3, 1, 1, 3,  3);
+
+  ss.str("");
+  ss<<"Y"<<time_index;
+  name = ss.str();
+  data_reader( temp2, name, ldx,  ldy,  ldz,
+               3,  3, 1, 1, 3,  3);
+
+  ss.str("");
+  ss<<"Z"<<time_index;
+  name = ss.str();
+  data_reader( temp3, name, ldx,  ldy,  ldz,
+               3,  3, 1, 1, 3,  3);
+
+  ss.str("");
+  ss<<"P"<<time_index;
+  name = ss.str();
+  data_reader( press, name, ldx,  ldy,  ldz,
+               3,  3, 1, 1, 3,  3);
+
+
+  if(ghost==1)
+    {
+
+      ss.str("");
+      ss<<"X"<<time_index<<"xz.dat";
+      finalName=ss.str();
+      ofstream output_file_xxz, output_file_yxz, output_file_zxz, output_file_pxz ;
+      output_file_xxz.open(finalName,ios::out | ios:: binary);
+
+      ss.str("");
+      ss<<"Y"<<time_index<<"xz.dat";
+      finalName=ss.str();
+      output_file_yxz.open(finalName,ios::out | ios:: binary);
+
+      ss.str("");
+      ss<<"Z"<<time_index<<"xz.dat";
+      finalName=ss.str();
+      output_file_zxz.open(finalName,ios::out | ios:: binary);
+
+      ss.str("");
+      ss<<"P"<<time_index<<"xz.dat";
+      finalName=ss.str();
+      output_file_pxz.open(finalName,ios::out | ios:: binary);
+
+
+
+      for (int j = 0; j < ldy; j++){
+        for (int i = 0; i < ldx; i++){
+
+          output_file_xxz<<d1[i]<<" "<<d3[j]<<" "<<temp[j][level_y][i]<<endl;
+          output_file_yxz<<d1[i]<<" "<<d3[j]<<" "<<temp2[j][level_y][i]<<endl;
+          output_file_zxz<<d1[i]<<" "<<d3[j]<<" "<<temp3[j][level_y][i]<<endl;
+          output_file_pxz<<d1[i]<<" "<<d3[j]<<" "<<press[j][level_y][i]<<endl;
+        }
+        output_file_xxz<<endl;
+        output_file_yxz<<endl;
+        output_file_zxz<<endl;
+        output_file_pxz<<endl;
+      }
+      output_file_xxz.close();
+      output_file_yxz.close();
+      output_file_zxz.close();
+      output_file_pxz.close();
+
+
+      ss.str("");
+      ss<<"X"<<time_index<<"yz.dat";
+      finalName=ss.str();
+      ofstream output_file_xyz, output_file_yyz, output_file_zyz,
+        output_file_pyz;
+
+      output_file_xyz.open(finalName,ios::out | ios:: binary);
+
+      ss.str("");
+      ss<<"Y"<<time_index<<"yz.dat";
+      finalName=ss.str();
+      output_file_yyz.open(finalName,ios::out | ios:: binary);
+
+      ss.str("");
+      ss<<"Z"<<time_index<<"yz.dat";
+      finalName=ss.str();
+      output_file_zyz.open(finalName,ios::out | ios:: binary);
+
+      ss.str("");
+      ss<<"P"<<time_index<<"yz.dat";
+      finalName=ss.str();
+      output_file_pyz.open(finalName,ios::out | ios:: binary);
+
+
+
+      for (int j = 0; j < ldy; j++){
+        for (int i = 0; i < ldx; i++){
+
+          output_file_xyz<<d3[i]<<" "<<d2[j]<<" "<<temp[i][j][level_x]<<endl;
+          output_file_yyz<<d3[i]<<" "<<d2[j]<<" "<<temp2[i][j][level_x]<<endl;
+          output_file_zyz<<d3[i]<<" "<<d2[j]<<" "<<temp3[i][j][level_x]<<endl;
+          output_file_pyz<<d3[i]<<" "<<d2[j]<<" "<<press[i][j][level_x]<<endl;
+        }
+        output_file_xyz<<endl;
+        output_file_yyz<<endl;
+        output_file_zyz<<endl;
+        output_file_pyz<<endl;
+      }
+      output_file_xyz.close();
+      output_file_yyz.close();
+      output_file_zyz.close();
+      output_file_pyz.close();
+
+    }
+  else if(ghost==2)
+    {
+
+      ss.str("");
+      ss<<"X"<<time_index<<"xy.dat";
+      finalName=ss.str();
+      ofstream output_file_xxy, output_file_yxy, output_file_zxy, output_file_pxy ;
+      output_file_xxy.open(finalName,ios::out | ios:: binary);
+
+      ss.str("");
+      ss<<"Y"<<time_index<<"xy.dat";
+      finalName=ss.str();
+      output_file_yxy.open(finalName,ios::out | ios:: binary);
+
+      ss.str("");
+      ss<<"Z"<<time_index<<"xy.dat";
+      finalName=ss.str();
+      output_file_zxy.open(finalName,ios::out | ios:: binary);
+
+      ss.str("");
+      ss<<"P"<<time_index<<"xy.dat";
+      finalName=ss.str();
+      output_file_pxy.open(finalName,ios::out | ios:: binary);
+
+
+
+      for (int j = -1; j < ldy+1; j++){
+        for (int i = -3; i < ldx+3; i++){
+
+          output_file_xxy<<d1[i]<<" "<<d2[j]<<" "<<temp[level_z][j][i]<<endl;
+          output_file_yxy<<d1[i]<<" "<<d2[j]<<" "<<temp2[level_z][j][i]<<endl;
+          output_file_zxy<<d1[i]<<" "<<d2[j]<<" "<<temp3[level_z][j][i]<<endl;
+          output_file_pxy<<d1[i]<<" "<<d2[j]<<" "<<press[level_z][j][i]<<endl;
+        }
+
+        output_file_xxy<<endl;
+        output_file_yxy<<endl;
+        output_file_zxy<<endl;
+        output_file_pxy<<endl;
+      }
+
+      output_file_xxy.close();
+      output_file_yxy.close();
+      output_file_zxy.close();
+      output_file_pxy.close();
+
+      ss.str("");
+      ss<<"X"<<time_index<<"xz.dat";
+      finalName=ss.str();
+      ofstream output_file_xxz, output_file_yxz, output_file_zxz, output_file_pxz ;
+      output_file_xxz.open(finalName,ios::out | ios:: binary);
+
+      ss.str("");
+      ss<<"Y"<<time_index<<"xz.dat";
+      finalName=ss.str();
+      output_file_yxz.open(finalName,ios::out | ios:: binary);
+
+      ss.str("");
+      ss<<"Z"<<time_index<<"xz.dat";
+      finalName=ss.str();
+      output_file_zxz.open(finalName,ios::out | ios:: binary);
+
+      ss.str("");
+      ss<<"P"<<time_index<<"xz.dat";
+      finalName=ss.str();
+      output_file_pxz.open(finalName,ios::out | ios:: binary);
+
+
+ 
+      for (int j = -3; j < ldz+3; j++){
+        for (int i = -3; i < ldx+3; i++){
+
+          output_file_xxz<<d1[i]<<" "<<d3[j]<<" "<<temp[j][level_y][i]<<endl;
+          output_file_yxz<<d1[i]<<" "<<d3[j]<<" "<<temp2[j][level_y][i]<<endl;
+          output_file_zxz<<d1[i]<<" "<<d3[j]<<" "<<temp3[j][level_y][i]<<endl;
+          output_file_pxz<<d1[i]<<" "<<d3[j]<<" "<<press[j][level_y][i]<<endl;
+        }
+        output_file_xxz<<endl;
+        output_file_yxz<<endl;
+        output_file_zxz<<endl;
+        output_file_pxz<<endl;
+      }
+      output_file_xxz.close();
+      output_file_yxz.close();
+      output_file_zxz.close();
+      output_file_pxz.close();
+
+
+      ss.str("");
+      ss<<"X"<<time_index<<"yz.dat";
+      finalName=ss.str();
+      ofstream output_file_xyz, output_file_yyz, output_file_zyz,
+        output_file_pyz;
+
+      output_file_xyz.open(finalName,ios::out | ios:: binary);
+
+      ss.str("");
+      ss<<"Y"<<time_index<<"yz.dat";
+      finalName=ss.str();
+      output_file_yyz.open(finalName,ios::out | ios:: binary);
+
+      ss.str("");
+      ss<<"Z"<<time_index<<"yz.dat";
+      finalName=ss.str();
+      output_file_zyz.open(finalName,ios::out | ios:: binary);
+
+      ss.str("");
+      ss<<"P"<<time_index<<"yz.dat";
+      finalName=ss.str();
+      output_file_pyz.open(finalName,ios::out | ios:: binary);
+
+
+      
+      for (int j = -1; j < ldy+1; j++){
+        for (int i = -3; i < ldx+3; i++){
+
+          output_file_xyz<<d3[i]<<" "<<d2[j]<<" "<<temp[i][j][level_x]<<endl;
+          output_file_yyz<<d3[i]<<" "<<d2[j]<<" "<<temp2[i][j][level_x]<<endl;
+          output_file_zyz<<d3[i]<<" "<<d2[j]<<" "<<temp3[i][j][level_x]<<endl;
+          output_file_pyz<<d3[i]<<" "<<d2[j]<<" "<<press[i][j][level_x]<<endl;
+        }
+        output_file_xyz<<endl;
+        output_file_yyz<<endl;
+        output_file_zyz<<endl;
+        output_file_pyz<<endl;
+      }
+      output_file_xyz.close();
+      output_file_yyz.close();
+      output_file_zyz.close();
+      output_file_pyz.close();
+
+
+
+    }
+
+  d1-=3;
+  d2-=1;
+  d3-=3;
+
+  delete []d1;
+  delete []d2;
+  delete []d3;
+
+
+  Free_Matrix(temp,3,1,3);
+  Free_Matrix(temp2,3,1,3);
+  Free_Matrix(temp3,3,1,3);
+  Free_Matrix(press,3,1,3);
+}

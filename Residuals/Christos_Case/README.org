@@ -1,0 +1,4 @@
+* Notes
+
+These functions compute the forcing term that was introduced for the test case
+described at the projection method paper.

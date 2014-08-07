@@ -1,0 +1,22 @@
+#!/bin/bash
+
+gnuplot << EOF
+unset key
+set term eps enhanced color solid lw 2 size 10in,7in font  'Helvetica,14'
+#set size ratio -1
+set output '$1_contour_increment.eps'
+set title "$1-contour-increment"
+set contour base
+set cntrparam levels increment $2,$3,$4
+set xrange[0:$5]
+set yrange[0:$6]
+set xlabel "X"
+set ylabel "Y"
+unset surface
+set view map
+#set palette gray
+splot "$1.dat"  with lines palette gray
+EOF
+epstopdf $1_contour_increment.eps
+rm $1_contour_increment.eps
+okular $1_contour_increment.pdf &

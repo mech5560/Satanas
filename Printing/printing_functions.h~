@@ -1,0 +1,24 @@
+#ifndef PRINTING_FUNCTIONS_H
+#define PRINTING_FUNCTIONS_H
+
+
+
+void Printing_RHS(double *rhs, int time_index,
+                  int ldx, int ldy, int ldz,
+                  const char *a);
+
+void Print_Divergence(double*** velocity_x,
+                      double*** velocity_y, double*** velocity_z,
+                      double*** rho_new, double*** rho,double*** rho_old,
+                      double dx, double* dy, double dz,
+                      double dt, int time_index,const char *a,
+                      int ldx, int ldy, int ldz);
+
+
+void Print_Divergence_2ND_Order(double*** velocity_x,
+                                double*** velocity_y, double*** velocity_z,
+                                double*** rho_new, double*** rho,double*** rho_old,
+                                double dx, double* dy, double dz,
+                                double dt, int time_index, const char *a,
+                                int ldx, int ldy, int ldz);
+#endif

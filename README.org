@@ -1,0 +1,7 @@
+* Run's description
+
+- This code computes varying dt.
+
+- I divided the pertubation in the transverse directions with 5
+
+- 

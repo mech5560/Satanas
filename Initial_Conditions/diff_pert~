@@ -1,0 +1,144 @@
+
+
+
+
+
+        // velocity_x[k][j][i]= ( (velocity_x[k][j][i]+ 
+  	// 			relaxation*velocity_x[k][j][i]*(drand())))/u_ref;
+
+
+        // velocity_y[k][j][i]= ( (velocity_y[k][j][i] +
+  	// 			relaxation*(velocity_y[k][j][i]+(drand()/5.))*drand()))/u_ref;
+
+
+        // velocity_z[k][j][i]= ( (velocity_z[k][j][i] +
+  	// 			relaxation*(velocity_z[k][j][i]+(drand()/5.))*drand()))/u_ref;
+
+ 	//
+	//Try 13/06//
+	//
+
+        // velocity_x[k][j][i]= ( (velocity_x[k][j][i]+ 
+  	// 			relaxation*velocity_x[k][j][i]*(drand())))/u_ref;
+
+
+        // velocity_y[k][j][i]= ( (velocity_y[k][j][i] +
+  	// 			relaxation*(velocity_y[k][j][i]+(drand()))*drand()))/u_ref;
+
+
+        // velocity_z[k][j][i]= ( (velocity_z[k][j][i] +
+  	// 			relaxation*(velocity_z[k][j][i]+(drand()))*drand()))/u_ref;
+
+
+	// //Try 16/06
+        // velocity_x[k][j][i]= ( (velocity_x[k][j][i] +
+  	// 			relaxation*((drand()))*drand()))/u_ref;
+
+
+        // velocity_y[k][j][i]= ( (velocity_y[k][j][i] +
+  	// 			relaxation*(velocity_y[k][j][i]+(drand()/10.))*drand()))/u_ref;
+
+
+        // velocity_z[k][j][i]= ( (velocity_z[k][j][i] +
+  	// 			relaxation*(velocity_z[k][j][i]+(drand()/10.))*drand()))/u_ref;
+
+
+
+//Sinusoidal
+  double z_local=0.;
+  for (int k = 0; k < ldz; k++){
+    double y_local=-1.;
+    z_local+=dz/2.;
+
+    for (int j = 0; j < ldy; j++){
+      y_local+=dy[j];
+      double x_local=0.;
+
+      for (int i = 0; i < ldx; i++){
+
+
+  	//Alternative pertubation style
+        x_local+=dx/2.;
+
+  	velocity_x[k][j][i]= (velocity_x[k][j][i]*
+  			      (1.+relaxation_x*sin(2.*PI*x_local)
+  			       +relaxation_x*relaxation_x*sin(4.*PI*x_local))
+  			      *exp(-(y_local*y_local)));
+	  
+
+  	velocity_y[k][j][i] = relaxation_yz*sin(2.*PI*y_local)+
+  	  (relaxation_yz)*(relaxation_yz)*sin(4.*PI*y_local);
+
+  	velocity_z[k][j][i] = relaxation_yz*sin(2.*PI*z_local)+
+  	  (relaxation_yz)*(relaxation_yz)*sin(4.*PI*z_local);
+
+  	x_local+=dx/2.;
+
+      }
+      y_local+=dy[j];    
+    }
+    z_local+=dz/2.;
+  }
+
+
+
+  for (int k = 0; k < ldz; k++){
+    double y_local=-1.;
+    for (int j = 0; j < ldy; j++){
+      y_local+=dy[j];
+
+      for (int i = 0; i < ldx; i++){
+
+
+        velocity_x[k][j][i]= 
+	  (velocity_x[k][j][i]*(1. + relaxation_x*drand()))/u_ref
+	  *exp(-(y_local*y_local));
+
+
+        velocity_y[k][j][i]=  (velocity_y[k][j][i] + 
+			       (velocity_y[k][j][i]+relaxation_yz*drand())
+			       *relaxation_x*drand())/u_ref*exp(-(y_local*y_local));
+
+
+        velocity_z[k][j][i]=  (velocity_z[k][j][i] + 
+			       (velocity_z[k][j][i]+relaxation_yz*drand())
+			       *relaxation_x*drand())/u_ref*exp(-(y_local*y_local));
+
+
+      }
+      y_local+=dy[j];    
+    }
+  }
+
+
+
+
+  for (int k = 0; k < ldz; k++){
+    for (int j = 0; j < ldy; j++){
+      for (int i = 0; i < ldx; i++){
+
+
+
+      velocity_x[k][j][i]=  (velocity_x[k][j][i]+ 
+                             relaxation_x*velocity_x[k][j][i]*(drand()));
+      
+
+      velocity_y[k][j][i]=  velocity_y[k][j][i] +
+        (velocity_y[k][j][i]+(drand()*relaxation_yz))*relaxation_x*drand();
+
+
+        velocity_z[k][j][i]=  velocity_z[k][j][i] +
+  				(velocity_z[k][j][i]+(drand()*relaxation_yz))*relaxation_x*drand();
+
+
+        
+
+      }
+
+    }
+
+  }
+
+
+
+//run July

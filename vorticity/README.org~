@@ -1,0 +1,8 @@
+* Run 16/06
+
+- this code used varying dt
+- The pertubations are introduced based on these functions
+
+  -  u = u*(1+e*sin(2*pi*x/delta)+e^2*sin(4*pi*x/delta))*e^(-y^2)
+  -  v= e'sin(2*pi*y/delta) + e'^2*sin(4*pi*y/delta)
+  -  w= e'sin(2*pi*y/delta) + e'^2*sin(4*pi*y/delta)

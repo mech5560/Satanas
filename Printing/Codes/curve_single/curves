@@ -1,0 +1,8 @@
+#!/bin/bash
+
+./curve $1xy1
+./curve $1xy2
+./curve $1xz1
+./curve $1xz2
+./curve $1yz1
+./curve $1yz2

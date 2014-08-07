@@ -1,0 +1,21 @@
+#!/bin/bash
+
+
+awk "NR>=$2*$3+1 && NR<=$2*$3+$3" $1curve.dat > processed.txt
+
+
+
+gnuplot << EOF
+unset key
+set term eps enhanced color solid lw 2 size 10in,7in font  'Helvetica,14'
+set output '$1_curveY_$2.eps'
+set title "$1-X-along-XZplane--$2"
+set ylabel "amplitude"
+set xlabel "x"
+set palette gray
+plot "processed.txt" using 1:3 with linespoints pt 3 ps 0.5 lc rgb "#000000"
+EOF
+
+epstopdf $1_curveY_$2.eps
+rm $1_curveY_$2.eps
+okular $1_curveY_$2.pdf &

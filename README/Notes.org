@@ -1,0 +1,90 @@
+Last Modified: Time-stamp: <2014-06-23 10:26:42 mike_georgiou>
+*Things i am doing per day * 
+
+
+* 04/06 
+  
+** New Version PC
+** 09:23 Implementation of the predictor-corrector scheme
+
+*** Notes
+- I need to create another another function for the intermediate velocities of the
+  corrector step.
+
+- In addition, I need to update a few variables in order to compute correctly
+  the intermediate velocity at the corrector step
+**** Variables that i will switch in order to compute the residuals correctly are. 
+- All the rhos
+- the residuals
+
+
+
+
+*** Intermediate velocity function (Corrector)
+- I will use the projection - implicit  method which means that the functions
+  that will be modified are the int_vel_pro_imp
+
+*** Outcome
+- I was able to increase the time step from (0.05*0.05) to *(0.6*0.05)
+
+
+
+** 13:51 Comparison of the implicit and the explicit treatment
+
+*** Notes
+- I am doing that to check if the implementation of the implicit treatment has
+  dicreased the size of the boundary layer that was shown at the streamwise
+  component of the velocity.
+-  This is expected because i am introducing extra boundary conditions for the 
+u_tilda over the vertical direction
+- Also, I need to check if the pressure gradient must be multiplied by 2 or 3 at
+  the boundaries.
+
+
+*** Outcome
+- As expected the explicit method produces a bigger boundary layer than the
+  implicit implementation.
+
+- there is not a big difference between the 2 and 3 for the pressure gradient
+
+
+** Turbulent Channel Flow
+
+** 17:14 First of all i ll try to made my code more readable. 
+- One way to do that is to put all the ghost cell dimensions inside a struct
+  in order to be able to implement the boundary conditions inside functions easier.
+
+
+* 11/06
+
+** Post-Processing [4/4]
+
+- [X] Write a C program that converts binary data into Ascii[3/3]
+  - [X] Converts grid info
+  - [X] Convert scalar data from a plane
+  - [X] Convert scalar data from  the whole domain
+
+- [X] Write a C program that computes vorticities[0/0]
+  - This program will receive as inputs the three components of the velocity
+  - Also it will take as an input the domain information.
+  - **** Since i ll use fourth order accurate schemes i need to introduce also
+    the ghost cells ****
+- [X] Means and fluctuations
+
+
+- [X] Write a C program that creates the planar data that are necessary for
+  non-uniform grid 
+
+
+* 19/06 
+
+** Writing the function that computes the filtered subgrid stress tensor
+- One good idea for parallelizing my code is to store the coefficients into an
+  external file and use them inside my inline functions
+
+* 23/06
+- I ll introduce the eddy viscosity that i ve computed on Friday to my code
+  - The eddy viscosity is computed in the main
+  - then is passed to the tilda functions, the residual and the viscous
+    components
+  - Finally the eddy viscosity is used inside the viscous components

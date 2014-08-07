@@ -1,0 +1,42 @@
+/*******************************************
+ * Author: Michail Georgiou 
+*  Last Modified: Time-stamp: <2014-07-29 17:39:45 mike_georgiou>   
+*
+*
+two_point_correlation_computation.cpp -- 
+*
+* Written on Tuesday, 29 July 2014.
+********************************************/
+
+#include "fluctuation_computation.h"
+#include "fluctuation_structures.h"
+
+
+void two_point_correlation_computation(double ***fluct_x, double ***fluct_y,
+                                       double ***fluct_z, double *x, 
+                                       double *z, int y_index,
+                                       int time_step, grid_info grid)
+{
+  //along the x
+  two_point_correlation(fluct_x, fluct_x, x,z,
+                        y_index, 1, time_step, "R11x", grid);
+
+  two_point_correlation(fluct_y, fluct_y, x,z,
+                        y_index, 1, time_step, "R22x", grid);
+
+  two_point_correlation(fluct_z, fluct_z, x,z,
+                        y_index, 1, time_step, "R33x", grid);
+
+
+  //along the z
+  two_point_correlation(fluct_x, fluct_x, x,z,
+                        y_index, 2, time_step, "R11z", grid);
+
+  two_point_correlation(fluct_y, fluct_y, x,z,
+                        y_index, 2, time_step, "R22z", grid);
+
+  two_point_correlation(fluct_z, fluct_z, x,z,
+                        y_index, 2, time_step, "R33z", grid);
+
+
+}

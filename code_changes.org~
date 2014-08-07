@@ -1,0 +1,24 @@
+
+* In this file i am saving the changes- potential bugs- that i ve made in my code
+
+- I found an error in the computation of the viscus_xx and viscous_zz
+
+- I added the eddy viscosity on the computation of the coefficients for
+  the tridiagonal system
+
+- I am computing the dt based on the smallest dx_i and the gretest u_i,
+  not based on the dx_i/u_i.
+
+
+- I am deleting the potential from my code. i can find it in the main_projection code
+
+
+
+- I will just use the pressure gradient only at the boundaries of the tildas
+
+  
+** 06/08
+- I am switching the directions of the code from x to z.
+  - to do that a putted the pressure gradient in the z direction
+  - i changed the initialization of the velocities
+  - i am changing the geometry of the problem 

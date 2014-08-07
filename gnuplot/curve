@@ -1,0 +1,16 @@
+#!/bin/bash
+
+gnuplot << EOF
+unset key
+set term eps enhanced color solid lw 2 size 10in,7in font  'Helvetica,14'
+set output '$1_curveY_$2.eps'
+set title "$1-curveY-$2"
+set ylabel "amplitude"
+set xlabel "y"
+set xrange [0:$3]
+set palette gray
+plot "$1.dat" using $2 with linespoints pt 3 ps 0.1 lc rgb "#000000"
+EOF
+epstopdf $1_curveY_$2.eps
+rm $1_curveY_$2.eps
+okular $1_curveY_$2.pdf &

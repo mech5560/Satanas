@@ -1,0 +1,118 @@
+/*******************************************
+ * Author: Michail Georgiou
+ *  Last Modified: Time-stamp: <2014-05-28 16:51:16 mike_georgiou>
+ *
+ *
+Intermediate_Velocity_Y_Projection_Implicit.cpp -- This function computes
+the velocity_x_tilda implicitly over the y-direction. More
+specifically, it solves  d/dy(4./3.*dv/dy) = rhs, where rhs is given from
+eq.30 of the Lessani-Papalexandris paper. Of course, the d/dy(4./3*dv/dy)
+term of the Residual at time n is treated differently depending on
+the implicit schemes that is used
+
+It must be stressed that the projection method that is used  to
+correct  the velocity_x_tilda  is the Bell et. al implementation.
+*
+* Written on Wednesday, 28 May 2014.
+********************************************/
+
+#include"Intermediate_Velocity.h"
+
+
+void 
+Intermediate_Velocity_Y_Projection_Implicit(double***velocity_y_tilda,
+                                            double*** residual_y,
+                                            double*** residual_y_old,
+                                            double*** velocity_x,
+                                            double*** velocity_y,
+                                            double*** velocity_z,
+                                            double*** flux_x, double***flux_y,
+                                            double*** flux_z,
+                                            double*** rho_new, double*** rho,
+                                            double*** temperature,
+					    double*** pressure,
+                                            double Reynolds,double source,
+                                            double dx, double* dy,  double dz,
+                                            double dt, double time_total,
+                                            int ldx, int ldy, int ldz)
+
+{
+
+  //Allocating memory for the three vectors that will be used by the
+  //tridiagonal solver
+  double *left_diagonal, *central_diagonal, *right_diagonal, *rhs, *result;
+
+  left_diagonal = new double [ldy];
+  central_diagonal = new double [ldy];
+  right_diagonal = new double [ldy];
+  rhs = new double [ldy];
+  result = new double [ldy];
+
+
+  for (int k=0; k<ldz; k++){
+    for (int i=0; i<ldx; i++){
+
+      for (int j=0; j<ldy; j++){
+
+
+        double explicit_term=0.;
+	Velocity_Residual_Y_Implicit( residual_y,
+				      velocity_x,  velocity_y,
+				      velocity_z, 
+				      flux_x, flux_y,  flux_z,
+				      temperature, Reynolds,
+				      source,
+				      dx, dy,  dz,
+				      time_total,
+				      i, j, k,
+				      &explicit_term);
+
+
+
+        double residual_sum=
+          1.5*residual_y[k][j][i] - 0.5*residual_y_old[k][j][i];
+
+
+	// Introducing this term in order to fix the issue with the
+	// pressure gradient in the tangential direction of the wall
+	double interpolation_y[2];
+	  for(int vj=0; vj<2; vj++)
+	    {
+	      interpolation_y[vj] =
+		Interpolation_Y(pressure[k][j+vj][i],dy[j+vj],
+				pressure[k][j+vj-1][i],dy[j+vj-1]);
+	    }
+	
+	
+	double pressure_gradient = Derivative(interpolation_y[1],
+					      interpolation_y[0],
+					      2.*dy[j],1);
+
+
+
+        rhs[j] = (rho[k][j][i]*velocity_x[k][j][i]+
+                  dt*(residual_sum -pressure_gradient +explicit_term))
+          /rho_new[k][j][i];
+      }
+
+      // velocity_x_tilda[k][j][i] =
+      //   (rho[k][j][i]*velocity_x[k][j][i] +
+      //    dt*(residual_sum-pressure_gradient))/rho_new[k][j][i];
+
+
+    }
+  }
+
+
+  //deallocating the memory for the  vectors that will be used by the
+  //tridiagonal solver
+
+  delete[] left_diagonal;
+  delete[] central_diagonal;
+  delete[] right_diagonal;
+  delete[] rhs ;
+  delete[] result;
+
+
+
+}

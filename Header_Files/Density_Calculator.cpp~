@@ -1,0 +1,32 @@
+/*******************************************
+ * Author: Michail Georgiou 
+*  Last Modified: Time-stamp: <2014-04-10 17:18:04 mike_georgiou>   
+*
+*
+Density_Calculator.cpp -- This function will compute the density based on
+interpolated data that i found on the net.
+*
+* Written on Thursday, 10 April 2014.
+   ********************************************/
+   
+
+
+#define Density(T) \
+1.034615 -0.155/988.*(T) - 0.0026580/988. * (T)*(T)
+
+   
+   
+ void Density_Calculator(double ***Rho, double ***T, int ldz, int ldy, int ldx)
+			       
+{
+  for (int k=0; k<ldz; k++)
+    {			
+      for(int j=0; j<ldy; j++)		
+	{					
+	  for (int i=0; i<ldx; i++)	
+	    {				
+	      Rho[k][j][i]=Density(T[k][j][i]);
+	    }				
+	}					
+    }					
+}	

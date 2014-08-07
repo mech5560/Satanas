@@ -1,0 +1,6 @@
+# Solution Points X
+64 
+# Solution Points Y
+64 
+# Solution Points Z
+64 

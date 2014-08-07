@@ -1,0 +1,8 @@
+# level that the curve will be take from in the x direction
+31
+# level that the curve will be take from in the y direction
+31
+# level that the curve will be take from in the z direction
+31
+# printing ghost cells (2) or not(1)
+1
